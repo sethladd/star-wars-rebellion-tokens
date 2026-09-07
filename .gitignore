@@ -1,0 +1,20 @@
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Editor/IDE
+*.swp
+*.swo
+*~
+.vscode/
+.idea/
+
+# OpenSCAD
+*.scad.bak
+*.echo
+*.csg
+
+# Python
+__pycache__/
+*.pyc
