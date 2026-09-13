@@ -17,11 +17,11 @@ ex imperial/rebellion_imperial.scad art_crest   top    imperial/stl/rebellion_im
 ex imperial/rebellion_imperial.scad token       bottom imperial/stl/rebellion_imperial_half_bottom_token.stl
 ex imperial/rebellion_imperial.scad art_trooper bottom imperial/stl/rebellion_imperial_half_bottom_art_trooper.stl
 ex imperial/rebellion_imperial.scad band        bottom imperial/stl/rebellion_imperial_half_bottom_band.stl
-ex trackers/rebellion_rebels_tracker.scad token     bottom trackers/stl/rebellion_rebels_tracker_half_token.stl
-ex trackers/rebellion_rebels_tracker.scad inlay_red bottom trackers/stl/rebellion_rebels_tracker_half_inlay_red.stl
-ex trackers/rebellion_round_tracker.scad token        bottom trackers/stl/rebellion_round_tracker_half_token.stl
-ex trackers/rebellion_round_tracker.scad inlay_white  bottom trackers/stl/rebellion_round_tracker_half_inlay_white.stl
-ex trackers/rebellion_round_tracker.scad inlay_red    bottom trackers/stl/rebellion_round_tracker_half_inlay_red.stl
-ex trackers/rebellion_round_tracker.scad inlay_yellow bottom trackers/stl/rebellion_round_tracker_half_inlay_yellow.stl
-ex trackers/rebellion_round_tracker.scad inlay_cream  bottom trackers/stl/rebellion_round_tracker_half_inlay_cream.stl
-wait; echo "half exports done"; ls -la imperial/stl/*_half_* rebel/stl/*_half_* sabotage/stl/*_half_* trackers/stl/*_half_*
+ex rebels_tracker/rebellion_rebels_tracker.scad token     bottom rebels_tracker/stl/rebellion_rebels_tracker_half_token.stl
+ex rebels_tracker/rebellion_rebels_tracker.scad inlay_red bottom rebels_tracker/stl/rebellion_rebels_tracker_half_inlay_red.stl
+ex round_tracker/rebellion_round_tracker.scad token        bottom round_tracker/stl/rebellion_round_tracker_half_token.stl
+ex round_tracker/rebellion_round_tracker.scad inlay_white  bottom round_tracker/stl/rebellion_round_tracker_half_inlay_white.stl
+ex round_tracker/rebellion_round_tracker.scad inlay_red    bottom round_tracker/stl/rebellion_round_tracker_half_inlay_red.stl
+ex round_tracker/rebellion_round_tracker.scad inlay_yellow bottom round_tracker/stl/rebellion_round_tracker_half_inlay_yellow.stl
+ex round_tracker/rebellion_round_tracker.scad inlay_cream  bottom round_tracker/stl/rebellion_round_tracker_half_inlay_cream.stl
+wait; echo "half exports done"; ls -la imperial/stl/*_half_* rebel/stl/*_half_* sabotage/stl/*_half_* rebels_tracker/stl/*_half_* round_tracker/stl/*_half_*

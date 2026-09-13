@@ -16,13 +16,16 @@ for p in token inlay_red; do
 done
 wait; ls -la sabotage/stl/rebellion_sabotage_*
 
-# Rebels tracker and round tracker discs
+# Rebels tracker disc
 for p in token inlay_red; do
-  ( "$OSCAD" --render --export-format binstl -o "trackers/stl/rebellion_rebels_tracker_${p}.stl" -D "part=\"$p\"" trackers/rebellion_rebels_tracker.scad 2>&1 \
+  ( "$OSCAD" --render --export-format binstl -o "rebels_tracker/stl/rebellion_rebels_tracker_${p}.stl" -D "part=\"$p\"" rebels_tracker/rebellion_rebels_tracker.scad 2>&1 \
       | grep -iE 'error|warning|Total rendering' | sed "s|^|[rebels_tracker $p] |" ) &
 done
+wait; ls -la rebels_tracker/stl
+
+# Round tracker disc
 for p in token inlay_white inlay_red inlay_yellow inlay_cream; do
-  ( "$OSCAD" --render --export-format binstl -o "trackers/stl/rebellion_round_tracker_${p}.stl" -D "part=\"$p\"" trackers/rebellion_round_tracker.scad 2>&1 \
+  ( "$OSCAD" --render --export-format binstl -o "round_tracker/stl/rebellion_round_tracker_${p}.stl" -D "part=\"$p\"" round_tracker/rebellion_round_tracker.scad 2>&1 \
       | grep -iE 'error|warning|Total rendering' | sed "s|^|[round_tracker $p] |" ) &
 done
-wait; ls -la trackers/stl/rebellion_*_tracker_*
+wait; ls -la round_tracker/stl

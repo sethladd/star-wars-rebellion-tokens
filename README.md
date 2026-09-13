@@ -1,18 +1,19 @@
 # Star Wars: Rebellion — Imperial and Rebel hex tokens, Sabotage marker and tracker discs (3D printable)
 
-Each token family lives in its own directory with the same layout: a `.scad` model, a
-`stl/` output folder, and a `preview/` folder (with a `preview/audit/` subfolder holding
-raw printability-audit renders). Shared SVG art is in [`art/`](art/) and shared export /
-audit tooling is in [`tools/`](tools/).
+Each token gets its own directory with the same layout: a `.scad` model, a `stl/` output
+folder, and a `preview/` folder (with a `preview/audit/` subfolder holding raw
+printability-audit renders). Shared SVG art is in [`art/`](art/) and shared export / audit
+tooling (used by more than one token) is in [`tools/`](tools/).
 
 ```
-art/        SVG source art shared across tokens
-tools/      export.sh, export_halves.sh, audit.py (shared hex-token audit)
-imperial/   Imperial token
-rebel/      Rebel token
-sabotage/   Sabotage marker
-trackers/   Rebels tracker + round tracker discs
-preview/    cross-token renders (currently just the glued-halves preview sheet)
+art/             SVG source art shared across tokens
+tools/           export.sh, export_halves.sh, audit.py, audit_disc.py (shared audits)
+imperial/        Imperial token
+rebel/           Rebel token
+sabotage/        Sabotage marker
+rebels_tracker/  Rebels tracker disc
+round_tracker/   Round tracker disc (the Death Star dial)
+preview/         cross-token renders (glued-halves sheet, combined trackers sheet)
 ```
 
 23.5 mm flat-to-flat hexagon (27.1 mm corner to corner), 3.0 mm thick, 0.4 mm edge
@@ -76,7 +77,7 @@ Death Star texture in the background of the original is not reproduced. Preview:
 [`sabotage/preview/rebellion_sabotage_preview.png`](sabotage/preview/rebellion_sabotage_preview.png);
 [`sabotage/audit_sabotage.py`](sabotage/audit_sabotage.py) is the raster audit of the red mask.
 
-## Tracker discs ([`trackers/`](trackers/))
+## Tracker discs ([`rebels_tracker/`](rebels_tracker/), [`round_tracker/`](round_tracker/))
 
 Both are 18.75 mm discs, 3.0 mm thick, 0.4 mm chamfers, art inlaid 0.6 mm deep on both
 faces (bottom mirrored), delivered whole and as glue-together halves (one half file per
@@ -84,10 +85,10 @@ body, print it twice).
 
 **Rebels tracker**: black body, red Rebel starbird (circle r 6.9 mm, measured from the
 photo) — the same `art/rebel_starbird.svg` art as the hex token (CC BY-SA 4.0). Model:
-[`trackers/rebellion_rebels_tracker.scad`](trackers/rebellion_rebels_tracker.scad). Files:
-`trackers/stl/rebellion_rebels_tracker_token.stl` (black) + `..._inlay_red.stl`; halves
-`trackers/stl/rebellion_rebels_tracker_half_token.stl` + `..._half_inlay_red.stl`. The
-black gaps beside the centre spike are about 0.45 mm and the wing tips taper, as on the
+[`rebels_tracker/rebellion_rebels_tracker.scad`](rebels_tracker/rebellion_rebels_tracker.scad).
+Files: `rebels_tracker/stl/rebellion_rebels_tracker_token.stl` (black) + `..._inlay_red.stl`;
+halves `rebels_tracker/stl/rebellion_rebels_tracker_half_token.stl` + `..._half_inlay_red.stl`.
+The black gaps beside the centre spike are about 0.45 mm and the wing tips taper, as on the
 hex token.
 
 **Round tracker** (the Death Star dial): dark brown body with a broken white ring
@@ -96,14 +97,15 @@ cream panels between core and ring. Ring, core and panel radii and angles are me
 marks are regularised into an even cross of four 1.2 mm triangles pointing at the centre
 (the original's are about 0.7 mm at irregular positions), and the original's hair-fine radial panel lines and tick
 marks are left out. Model:
-[`trackers/rebellion_round_tracker.scad`](trackers/rebellion_round_tracker.scad). Five
-bodies: `trackers/stl/rebellion_round_tracker_token.stl` (dark brown or black),
+[`round_tracker/rebellion_round_tracker.scad`](round_tracker/rebellion_round_tracker.scad). Five
+bodies: `round_tracker/stl/rebellion_round_tracker_token.stl` (dark brown or black),
 `..._inlay_white.stl`, `..._inlay_red.stl`, `..._inlay_yellow.stl`, `..._inlay_cream.stl`
 (with a 4-slot AMS print the cream panels in white or grey, or skip that body and they
 become body colour). Halves: the same five names with `_half_`.
 
-Preview: [`trackers/preview/rebellion_trackers_preview.png`](trackers/preview/rebellion_trackers_preview.png);
-[`trackers/audit_disc.py`](trackers/audit_disc.py) is the raster audit.
+Combined preview: [`preview/rebellion_trackers_preview.png`](preview/rebellion_trackers_preview.png)
+(both discs together, hence living in the top-level `preview/`);
+[`tools/audit_disc.py`](tools/audit_disc.py) is the shared raster audit for both.
 
 ## Split versions for gluing (art printed on the bed)
 
@@ -119,8 +121,8 @@ them; `tools/export_halves.sh` re-exports the set.
 | Rebel | one piece, print it twice | `rebel/stl/rebellion_rebel_half_token.stl` (grey), `..._half_inlay_black.stl`, `..._half_inlay_red.stl` |
 | Imperial, crest side | top half | `imperial/stl/rebellion_imperial_half_top_token.stl` (black), `imperial/stl/rebellion_imperial_half_top_art_crest.stl` (silver) |
 | Imperial, trooper side | bottom half | `imperial/stl/rebellion_imperial_half_bottom_token.stl` (black), `..._half_bottom_art_trooper.stl` (white/silver), `..._half_bottom_band.stl` (grey) |
-| Rebels tracker | one piece, print it twice | `trackers/stl/rebellion_rebels_tracker_half_token.stl` (black), `..._half_inlay_red.stl` (red) |
-| Round tracker | one piece, print it twice | `trackers/stl/rebellion_round_tracker_half_token.stl` (body colour) + the four `_half_inlay_*.stl` colours |
+| Rebels tracker | one piece, print it twice | `rebels_tracker/stl/rebellion_rebels_tracker_half_token.stl` (black), `..._half_inlay_red.stl` (red) |
+| Round tracker | one piece, print it twice | `round_tracker/stl/rebellion_round_tracker_half_token.stl` (body colour) + the four `_half_inlay_*.stl` colours |
 
 The Rebel and Sabotage tokens carry the same (mirrored) art on both faces, so their top
 and bottom halves are the same physical piece. The top half is turned over by a rotation,
@@ -150,13 +152,15 @@ Imperial, Rebel and Sabotage halves). The originals are unchanged.
 | `sabotage/stl/rebellion_sabotage_token.stl`, `sabotage/stl/rebellion_sabotage_inlay_red.stl` | Sabotage marker body (black) and its exact-complement red inlay |
 | `sabotage/preview/rebellion_sabotage_preview.png` | Render sheet |
 | `sabotage/audit_sabotage.py` | Raster printability audit of the sabotage red mask |
-| `trackers/rebellion_rebels_tracker.scad`, `trackers/rebellion_round_tracker.scad` | Parametric OpenSCAD models of the two 18.75 mm tracker discs |
-| `trackers/stl/rebellion_rebels_tracker_*.stl`, `trackers/stl/rebellion_round_tracker_*.stl` | Tracker bodies and inlays, whole and `_half_` |
-| `trackers/preview/rebellion_trackers_preview.png` | Render sheet |
-| `trackers/audit_disc.py` | Raster printability audit for round tokens (per-colour masks + body lands) |
+| `rebels_tracker/rebellion_rebels_tracker.scad` | Parametric OpenSCAD model of the Rebels tracker disc |
+| `rebels_tracker/stl/rebellion_rebels_tracker_*.stl` | Rebels tracker bodies and inlays, whole and `_half_` |
+| `round_tracker/rebellion_round_tracker.scad` | Parametric OpenSCAD model of the Round tracker disc |
+| `round_tracker/stl/rebellion_round_tracker_*.stl` | Round tracker bodies and inlays, whole and `_half_` |
+| `preview/rebellion_trackers_preview.png` | Render sheet (both tracker discs together) |
 | `preview/rebellion_halves_preview.png` | Render sheet for the glued-halves versions (Imperial, Rebel, Sabotage) |
 | `tools/export.sh`, `tools/export_halves.sh` | Re-export STLs (whole tokens / glued halves); run from the project root |
 | `tools/audit.py` | Re-run the raster printability audit for the hex tokens (Imperial and Rebel); run from the project root |
+| `tools/audit_disc.py` | Raster printability audit for the round tokens (per-colour masks + body lands); takes file paths as arguments |
 
 ## Printing
 
@@ -188,9 +192,9 @@ underlying designs may still be protected as trademarks even where the copyright
 below is public domain.
 
 **Original code** — `imperial/rebellion_imperial.scad`, `rebel/rebellion_rebel.scad`,
-`sabotage/rebellion_sabotage.scad`, `trackers/rebellion_rebels_tracker.scad`,
-`trackers/rebellion_round_tracker.scad`, `tools/export.sh`, `tools/export_halves.sh`,
-`tools/audit.py`, `sabotage/audit_sabotage.py`, `trackers/audit_disc.py`:
+`sabotage/rebellion_sabotage.scad`, `rebels_tracker/rebellion_rebels_tracker.scad`,
+`round_tracker/rebellion_round_tracker.scad`, `tools/export.sh`, `tools/export_halves.sh`,
+`tools/audit.py`, `tools/audit_disc.py`, `sabotage/audit_sabotage.py`:
 [BSD 3-Clause](LICENSE-CODE.md).
 
 **Original content** — `art/helmet_outline.svg` (traced from a photo of the physical token),

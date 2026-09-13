@@ -4,9 +4,9 @@ Copyright (c) 2026, Seth Ladd
 
 Applies to the original code in this project: `imperial/rebellion_imperial.scad`,
 `rebel/rebellion_rebel.scad`, `sabotage/rebellion_sabotage.scad`,
-`trackers/rebellion_rebels_tracker.scad`, `trackers/rebellion_round_tracker.scad`,
-`tools/export.sh`, `tools/export_halves.sh`, `tools/audit.py`,
-`sabotage/audit_sabotage.py`, `trackers/audit_disc.py`. See
+`rebels_tracker/rebellion_rebels_tracker.scad`, `round_tracker/rebellion_round_tracker.scad`,
+`tools/export.sh`, `tools/export_halves.sh`, `tools/audit.py`, `tools/audit_disc.py`,
+`sabotage/audit_sabotage.py`. See
 [README.md](README.md#license--attribution) for what license covers the art and STL files.
 
 Redistribution and use in source and binary forms, with or without
