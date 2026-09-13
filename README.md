@@ -174,6 +174,14 @@ Single color: print only the token STL and paint-fill the recesses. The bottom-f
 recesses are then short bridges (max 3.5 mm across the dome) printed directly on the bed;
 they print but the bottom face will be rougher than the top.
 
+**"Object too small — scale to millimeters?" on import: answer No.** Snapmaker Orca (and
+other OrcaSlicer/PrusaSlicer builds) flags any body below a size threshold and offers to
+rescale it, guessing the file is in inches or metres. Every STL here is already in
+millimetres. The small inlay bodies trip it — the worst is the round tracker's yellow half
+inlay, the four marks in the middle of the red core, at 3.4 x 3.4 x 0.6 mm. Answering Yes
+multiplies that part by 25.4 and it lands in the plate as a ~86 mm slab while its siblings
+stay 18.75 mm. Answer No and the parts keep their true size and stay aligned.
+
 0.10 to 0.12 mm layers, Arachne walls on, no brim or supports.
 
 ## Design minimums (0.4 mm nozzle)
