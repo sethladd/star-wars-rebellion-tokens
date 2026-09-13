@@ -13,6 +13,8 @@
 //        "face_bot"     -> 2D layout check of the trooper face (as read)
 //        "preview"      -> colored OpenCSG preview, top face
 //        "preview_bot"  -> colored OpenCSG preview, bottom face (as printed)
+// half = "top" | "bottom" -> that half only (cut at 1.5mm), laid art-face down for
+//        printing on the bed; glue the flat faces. Works with every 3D part above.
 // All art is built from the same 2D modules as the cutters, so the inlay
 // bodies fit the token voids exactly (load them together in the slicer).
 // ============================================================================
@@ -27,13 +29,18 @@ chamfer = 0.4;       // edge chamfer top and bottom, also fights elephant-foot
 engrave = 0.6;       // engraving depth per face (3 layers @ 0.2mm)
 art_min_feature = 0.25; // drop engraved slivers thinner than this
 
+/* [Split for gluing] */
+half = "none";       // "none" = whole token. "top" / "bottom" = only that half, cut at
+                     // mid-thickness and laid art-face DOWN so the inlays print on the
+                     // bed; glue the two flat faces together afterwards.
+
 /* [Crest face] */
 // The crest is the public-domain Wikimedia SVG "Emblem of the First Galactic
 // Empire" used as drawn: the emblem's BLACK shape is what is silver on the
 // real token (its white cut-outs -- the ring segments and the cog -- stay
 // black). Scaled so the emblem's outer edge (300 units) lands at crest_R,
 // which reproduces every radius measured from the photo.
-crest_svg = "Emblem_of_the_First_Galactic_Empire.svg";
+crest_svg = "../art/Emblem_of_the_First_Galactic_Empire.svg";
 crest_R = 7.6;          // outer radius of the emblem (measured from the photo)
 // Sub-nozzle strokes are grown just enough to print (0.4mm nozzle):
 crest_band_grow = 0.35; // outer silver band: 0.63mm in the SVG -> ~0.88mm
@@ -110,7 +117,7 @@ module face_top2d() { opening(art_min_feature) crest2d(); }
 // nose, mouth, vents) are rebuilt as geometry sized for a
 // 0.4mm nozzle (lands >= 0.7mm) and placed from the traced feature boxes.
 module helmet_silhouette2d() {   // the SVG is drawn with its origin at (8,8)
-    translate([-8, -8]) import("helmet_outline.svg", center = false, dpi = 25.4);
+    translate([-8, -8]) import("../art/helmet_outline.svg", center = false, dpi = 25.4);
 }
 
 brow_y0 = 2.55; brow_y1 = 3.25;     // slit between dome and faceplate (0.7 land)
@@ -179,12 +186,26 @@ module cut_top()  { translate([0, 0, T - engrave]) linear_extrude(engrave + eps)
 module cut_bot()  { translate([0, 0, -eps]) linear_extrude(engrave + eps) mirror([1, 0]) face_bot2d(); }
 module cut_band() { translate([0, 0, -eps]) linear_extrude(engrave + eps) mirror([1, 0]) band2d(); }
 
+
+// ---------------------------------------------------------------- halves
+// Cut at T/2. "bottom" keeps z in [0, T/2] as is (its art is already at z=0).
+// "top" keeps z in [T/2, T] and turns it over (a rotation, not a mirror, so it is
+// the same physical piece) to put the top-face art on the bed.
+module halve() {
+    if (half == "bottom")
+        difference() { children(); translate([0, 0, T / 2]) linear_extrude(T) square(200, center = true); }
+    else if (half == "top")
+        translate([0, 0, T]) rotate([180, 0, 0])
+            difference() { children(); translate([0, 0, -T / 2]) linear_extrude(T) square(200, center = true); }
+    else children();
+}
+
 module token() { difference() { blank(); cut_top(); cut_bot(); cut_band(); } }
 
-if (part == "token") token();
-else if (part == "art_crest")   intersection() { blank(); cut_top(); }
-else if (part == "art_trooper") intersection() { blank(); cut_bot(); }
-else if (part == "band")        intersection() { blank(); cut_band(); }
+if (part == "token") halve() token();
+else if (part == "art_crest")   halve() intersection() { blank(); cut_top(); }
+else if (part == "art_trooper") halve() intersection() { blank(); cut_bot(); }
+else if (part == "band")        halve() intersection() { blank(); cut_band(); }
 else if (part == "audit_top") face_top2d();          // bare masks for the audit
 else if (part == "audit_bot") { face_bot2d(); band2d(); }
 else if (part == "face_top") {
@@ -195,11 +216,11 @@ else if (part == "face_bot") {
     difference() { hex2d(hex_R); offset(delta = -0.15) hex2d(hex_R); }
     face_bot2d(); band2d();
 }
-else if (part == "preview") {
+else if (part == "preview") halve() {
     color([0.2, 0.2, 0.22]) token();
     color([0.85, 0.85, 0.88]) difference() { cut_top(); translate([0,0,T+eps]) linear_extrude(1) hex2d(hex_R+1); }
 }
-else if (part == "preview_bot") {   // difference-only so OpenCSG shows it
+else if (part == "preview_bot") halve() {
     color([0.2, 0.2, 0.22]) token();
     color([0.85, 0.85, 0.88]) difference() { cut_bot(); below(); }
     color([0.55, 0.55, 0.58]) difference() { cut_band(); below(); outside_hex(); }

@@ -1,4 +1,8 @@
-"""Raster printability audit of the engraving masks (100 px/mm renders in preview/audit)."""
+"""Raster printability audit of the engraving masks on the hex tokens (Imperial, Rebel).
+Run from the project root, e.g.:
+    python3 tools/audit.py imperial/preview/audit/top imperial/preview/audit/bot
+    python3 tools/audit.py rebel/preview/audit/rebel_black rebel/preview/audit/rebel_red:0.7
+`name` is a path (without .png) to a 100 px/mm render; optionally suffixed `:groove_min`."""
 import numpy as np
 from PIL import Image
 from scipy import ndimage as ndi
@@ -6,7 +10,7 @@ ppm=100.0; apothem=11.75-0.4
 def disk(dmm):
     r=int(round(dmm*ppm/2)); y,x=np.ogrid[-r:r+1,-r:r+1]; return (x*x+y*y)<=r*r
 def audit(name, land_min=0.7, groove_min=1.0):
-    im=np.asarray(Image.open(f"preview/audit/{name}.png").convert("RGB")).astype(int)
+    im=np.asarray(Image.open(f"{name}.png").convert("RGB")).astype(int)
     bg=im[40,40]; eng=(np.abs(im-bg).sum(axis=2)>60)
     h,w=eng.shape; yy,xx=np.mgrid[0:h,0:w]; cx=cy=(w-1)/2
     X=(xx-cx)/ppm; Y=(cy-yy)/ppm
@@ -30,4 +34,4 @@ if len(sys.argv) > 1:
         name, _, g = arg.partition(":")
         audit(name, groove_min=float(g) if g else 1.0)
 else:
-    audit("top"); audit("bot")
+    audit("imperial/preview/audit/top"); audit("imperial/preview/audit/bot")
