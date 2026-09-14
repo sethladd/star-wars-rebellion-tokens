@@ -1,4 +1,4 @@
-# Star Wars: Rebellion — Imperial and Rebel hex tokens, Sabotage marker and tracker discs (3D printable)
+# Star Wars: Rebellion — Imperial and Rebel hex tokens, Sabotage marker, tracker discs and target markers (3D printable)
 
 Each token gets its own directory with the same layout: a `.scad` model, a `stl/` output
 folder, and a `preview/` folder (with a `preview/audit/` subfolder holding raw
@@ -13,6 +13,7 @@ rebel/           Rebel token
 sabotage/        Sabotage marker
 rebels_tracker/  Rebels tracker disc
 round_tracker/   Round tracker disc (the Death Star dial)
+target_markers/  The four target markers (Raid / Cell / Plans / No Fear)
 preview/         cross-token renders (glued-halves sheet, combined trackers sheet)
 ```
 
@@ -107,6 +108,51 @@ Combined preview: [`preview/rebellion_trackers_preview.png`](preview/rebellion_t
 (both discs together, hence living in the top-level `preview/`);
 [`tools/audit_disc.py`](tools/audit_disc.py) is the shared raster audit for both.
 
+## Target markers ([`target_markers/`](target_markers/))
+
+The four target markers (Outpost, Rebel Cell, Secure the Plans, Show No Fear) are
+physically identical: a 26 x 30 mm equilateral triangle with 3.5 mm flats across the corners
+(29 x 33.5 mm before the cuts), carrying the same gold "target" symbol over a different
+full-colour photograph. The photo is the only thing that tells them apart and cannot be
+printed, so the print replaces it with the mission word in the middle of the marker, in
+white, inside the gold target symbol: the broken ring and the three arrows pointing in at
+it. The ring is enlarged from the original's 9 mm to wrap the word; the original's
+hazard-striped corners are left off. 3.0 mm thick, 0.4 mm chamfers, inlays 0.6 mm deep on
+both faces (bottom mirrored).
+
+| Marker | Word | `marker=` |
+|---|---|---|
+| Outpost | RAID | `raid` |
+| Rebel Cell | CELL | `cell` |
+| Secure the Plans | PLANS | `plans` |
+| Show No Fear | NO / FEAR (two lines) | `nofear` |
+
+Ring: outer radius 8.5 mm (0.78 mm of black to the chamfer line at the edge midpoints),
+0.9 mm wide, broken by three 32 degree gaps in line with the arrows. Arrows: three
+identical solid arrows (1.3 mm shaft, 2.8 x 2.2 mm head, 5 mm long) at 12, 4 and 8
+o'clock, tips 0.9 mm outside the ring. The originals' arrows are hollow with a 0.35 mm
+outline, below what the nozzle can draw. Words: Helvetica Neue Condensed Bold (a macOS
+system font; the `font` parameter takes any other), strokes grown 0.08 mm and letters
+spaced 1.2x. Cap heights are set by what fits inside the ring with at least 0.7 mm of
+black: 3.8 mm for RAID and CELL, 3.4 mm for the two-line NO / FEAR, and 3.2 mm for the
+wide PLANS. At 3.8 and 3.4 mm the stems are 0.8 to 0.9 mm and the horizontal strokes of
+E, F and L 0.7 to 0.8 mm; at 3.2 mm (PLANS) the horizontals and the foot of the L are
+0.65 to 0.7 mm. Remaining sub-minimum features, all inherent to letterforms at this
+size: the counters of A taper to nothing (their top ~1 mm will fill), the black between
+some letter pairs and inside the E, F, R and P is 0.55 to 0.65 mm, and the diagonal of
+the N in NO is about 0.65 mm. The first print of the ring-less version (same words,
+same sizes for RAID and CELL) came out well.
+
+Model: [`target_markers/rebellion_target_markers.scad`](target_markers/rebellion_target_markers.scad)
+(`marker` selects the word; every dimension is in the header block). Per marker, three
+bodies loaded together: `target_markers/stl/rebellion_target_<marker>_token.stl` (black),
+`..._inlay_gold.stl` (arrows), `..._inlay_white.stl` (word). Preview:
+[`target_markers/preview/rebellion_target_markers_preview.png`](target_markers/preview/rebellion_target_markers_preview.png).
+[`target_markers/audit_target.py`](target_markers/audit_target.py) is the raster audit
+(colour features, body lands, and the gold/white/edge clearances); its masks and reports
+are in `target_markers/preview/audit/`. [`target_markers/export.sh`](target_markers/export.sh)
+re-exports all 24 files. The source photos are `target_markers/rebellion_target_marker_*.jpg`.
+
 ## Split versions for gluing (art printed on the bed)
 
 Every token also comes as two 1.5 mm halves, cut at mid-thickness and laid art-face down,
@@ -123,9 +169,11 @@ them; `tools/export_halves.sh` re-exports the set.
 | Imperial, trooper side | bottom half | `imperial/stl/rebellion_imperial_half_bottom_token.stl` (black), `..._half_bottom_art_trooper.stl` (white/silver), `..._half_bottom_band.stl` (grey) |
 | Rebels tracker | one piece, print it twice | `rebels_tracker/stl/rebellion_rebels_tracker_half_token.stl` (black), `..._half_inlay_red.stl` (red) |
 | Round tracker | one piece, print it twice | `round_tracker/stl/rebellion_round_tracker_half_token.stl` (body colour) + the four `_half_inlay_*.stl` colours |
+| Target markers | one piece per marker, print it twice | `target_markers/stl/rebellion_target_<marker>_half_token.stl` (black), `..._half_inlay_gold.stl`, `..._half_inlay_white.stl` |
 
-The Rebel and Sabotage tokens carry the same (mirrored) art on both faces, so their top
-and bottom halves are the same physical piece. The top half is turned over by a rotation,
+The Rebel and Sabotage tokens and the target markers carry the same (mirrored) art on both
+faces, so their top and bottom halves are the same physical piece (checked for the target
+markers: the symmetric difference of the two halves is 0.0001 mm3 of 522). The top half is turned over by a rotation,
 not a mirror, so the glued token is identical to the one-piece version. Preview:
 [`preview/rebellion_halves_preview.png`](preview/rebellion_halves_preview.png) (covers the
 Imperial, Rebel and Sabotage halves). The originals are unchanged.
@@ -157,6 +205,11 @@ Imperial, Rebel and Sabotage halves). The originals are unchanged.
 | `round_tracker/rebellion_round_tracker.scad` | Parametric OpenSCAD model of the Round tracker disc |
 | `round_tracker/stl/rebellion_round_tracker_*.stl` | Round tracker bodies and inlays, whole and `_half_` |
 | `preview/rebellion_trackers_preview.png` | Render sheet (both tracker discs together) |
+| `target_markers/rebellion_target_markers.scad` | Parametric OpenSCAD model of the four target markers (`marker=` picks the word) |
+| `target_markers/stl/rebellion_target_<marker>_*.stl` | Target marker bodies (black token + gold arrows + white word), whole and `_half_` |
+| `target_markers/preview/rebellion_target_markers_preview.png` | Render sheet |
+| `target_markers/audit_target.py`, `target_markers/export.sh` | Raster printability audit and STL export for the target markers; run from the project root |
+| `target_markers/rebellion_target_marker_*.jpg` | Photos of the four originals |
 | `preview/rebellion_halves_preview.png` | Render sheet for the glued-halves versions (Imperial, Rebel, Sabotage) |
 | `tools/export.sh`, `tools/export_halves.sh` | Re-export STLs (whole tokens / glued halves); run from the project root |
 | `tools/audit.py` | Re-run the raster printability audit for the hex tokens (Imperial and Rebel); run from the project root |
@@ -166,7 +219,8 @@ Imperial, Rebel and Sabotage halves). The originals are unchanged.
 
 Multi-color (recommended): drag all STLs for one token into Bambu Studio / OrcaSlicer
 together and accept "load as a single object with multiple parts". Assign black to the
-token, white or silver to the two art bodies, grey to the band (Imperial). The parts share
+token, white or silver to the two art bodies, grey to the band (Imperial); for the target
+markers black, gold (or yellow) and white. The parts share
 one coordinate frame so they align automatically, and the bottom-face inlays make the
 first layer fully solid.
 

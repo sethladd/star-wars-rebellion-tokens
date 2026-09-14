@@ -1,0 +1,17 @@
+== gold: area 54.06mm2, x[-12.85,12.85] y[-8.54,14.46]
+  COLOUR thinner than 0.7mm: area 0.08mm2 at x[-1.36,-0.96] y[11.29,11.65]
+  COLOUR thinner than 0.7mm: area 0.08mm2 at x[0.96,1.36] y[11.29,11.65]
+  COLOUR thinner than 0.7mm: area 0.06mm2 at x[-0.17,0.17] y[9.49,9.79]
+  COLOUR thinner than 0.7mm: area 0.09mm2 at x[-10.77,-10.36] y[-5.00,-4.62]
+  COLOUR thinner than 0.7mm: area 0.09mm2 at x[10.36,10.77] y[-5.00,-4.62]
+  COLOUR thinner than 0.7mm: area 0.06mm2 at x[-8.54,-8.21] y[-5.03,-4.71]
+  COLOUR thinner than 0.7mm: area 0.06mm2 at x[8.21,8.54] y[-5.03,-4.71]
+  COLOUR thinner than 0.7mm: area 0.09mm2 at x[-9.61,-9.21] y[-7.00,-6.62]
+  COLOUR thinner than 0.7mm: area 0.09mm2 at x[9.21,9.61] y[-7.00,-6.62]
+== white: area 26.92mm2, x[-5.88,5.38] y[-1.99,1.97]
+  COLOUR thinner than 0.7mm: area 0.05mm2 at x[-3.44,-3.15] y[-1.99,-1.75]
+== body lands (inside the chamfer line, both colours removed)
+  LAND thinner than 0.7mm: area 2.41mm2 at x[2.04,2.71] y[-1.85,1.83]
+  LAND thinner than 0.7mm: area 0.34mm2 at x[-1.38,-0.85] y[-0.40,0.71]
+  LAND thinner than 0.7mm: area 0.23mm2 at x[-4.95,-4.25] y[-0.84,-0.39]
+== clearances: gold-white 1.45  gold-edge 0.76  white-edge 3.23
